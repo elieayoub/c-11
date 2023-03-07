@@ -83,3 +83,58 @@ class Derived : Base
     }
 }
 ```
+
+## Raw String Literals
+This is a new feature introduced with C# 11. What does this feature mean ?
+
+A “raw string literal” is a special type of string literal. It can be identified by three double quotes at the beginning and another three double quotes at the end of the string literal (e.g. """string literal""").
+
+If I may correct previous statement, the raw string literal is any string literals which start and end with at least three double quotes. It means that raw string literals may have more than three double quotes too at beginning and ending of the strings.
+
+Within these double quotes, single " are considered content and included in the string. It means if a double quote is present within starting and ending set of quotes, then it is treated as normal character in the string. e.g. the string – """ The "quotes" are included in the string """ – will include the double quotes around the word quotes.
+
+Any number of double quotes less than the number that opened the raw string literal are treated as content. It means if the string begins with 3 double quotes, then two double quotes at any point in the string literal would be treated as content. So, if you want to print 3 double quotes, you can begin and end the raw string literal with 4 or more double quotes.
+
+Rules for Raw String Literals
+Note that there are certain rules depending on whether the string is single line or multi-line.
+
+If the string literal is single line literal (i.e. begins and ends on single line in the code), then the beginning quotes and ending quotes need to be places on the same line.
+If the string literal is multi-line (i.e. begins on one line and string literal spans over multiple lines in the code), then the beginning quotes and ending quotes must be placed on their own lines.
+If the string literal is multi-line, then any whitespace (space or tab characters) appearing on left side of closing quotes, are removed.
+The code snippet given below shows examples of above mentioned rules.
+
+```csharp
+// ------------------------------------------------------------
+// Single Line Literal
+// ------------------------------------------------------------
+var singleLine = """This is a ""single line"" literal""";
+
+Console.ForegroundColor = ConsoleColor.White;
+Console.WriteLine("Single Line Literal: ");
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine(singleLine);
+Console.WriteLine("---------------------------------------------------");
+
+
+// ------------------------------------------------------------
+// This causes compile time error
+// ------------------------------------------------------------
+//var multiLine = """This is 
+//    "multi-line" literal""";
+// ------------------------------------------------------------
+
+// ------------------------------------------------------------
+// Multi-Line Literal
+// ------------------------------------------------------------
+var multiLine = """
+                This is a nice ""multi-line"" literal.
+                Whitespaces to the left of closing quotes are discarded.
+                """;
+
+Console.ForegroundColor = ConsoleColor.White;
+Console.WriteLine("Multi Line Literal");
+
+Console.ForegroundColor = ConsoleColor.Green;
+Console.WriteLine(multiLine);
+```
