@@ -38,3 +38,48 @@ result = example is [.., >= 3, _, _];
 // result is false, as first element is not greater than 1
 result = example is [>1, .., 8];
 ```
+
+## Field Access in Auto Properties
+An instance property containing an init accessor is considered settable in the following circumstances, except when in a local function or lambda:
+
+During an object initializer
+During a with expression initializer
+Inside an instance constructor of the containing or derived type, on this or base
+Inside the init accessor of any property, on this or base
+Inside attribute usages with named parameters
+The times above in which the init accessors are settable are collectively referred to in this document as the construction phase of the object.
+
+```csharp
+class Base
+{
+    internal readonly int Field;
+    internal int Property
+    {
+        get => Field;
+        init => Field = value; // Okay
+    }
+
+    internal int OtherProperty { get; init; }
+}
+
+class Derived : Base
+{
+    internal readonly int DerivedField;
+    internal int DerivedProperty
+    {
+        get => DerivedField;
+        init
+        {
+            DerivedField = 42;  // Okay
+            Property = 0;       // Okay
+            Field = 13;         // Error Field is readonly
+        }
+    }
+
+    public Derived()
+    {
+        Property = 42;  // Okay 
+        Field = 13;     // Error Field is readonly
+    }
+}
+```
