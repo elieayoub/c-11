@@ -1,5 +1,4 @@
-# c-11
-c# 11 New Features
+# What's new in C# 11
 
 ## Static Abstract Members
 ```csharp
